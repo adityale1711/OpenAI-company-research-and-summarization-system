@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from src.company_research_and_summarization_system.entity.config_entity import GoogleSheetsServiceConfig
+from src.company_research_and_summarization_system.entity.config_entity import (GoogleSheetsServiceConfig,
+                                                                                OpenAIServiceConfig)
 
 
 class ConfigurationManager:
@@ -27,3 +28,25 @@ class ConfigurationManager:
         )
 
         return google_sheets_service_config
+
+    def get_openai_service_config(self) -> OpenAIServiceConfig:
+        """
+        Get the configuration for OpenAI Service.
+
+        Returns:
+             OpenAIServiceConfig: Configuration object for OpenAI service.
+        """
+        openai_service_config = OpenAIServiceConfig(
+            OPENAI_API_KEY=os.getenv('OPENAI_API_KEY'),
+            MAX_RETRIES=int(os.getenv('MAX_RETRIES')),
+            RATE_LIMIT_CALLS_PER_MINUTE=int(os.getenv('RATE_LIMIT_CALLS_PER_MINUTE')),
+            PROMPT_PATH=os.getenv('PROMPT_PATH'),
+            MODEL=os.getenv('MODEL'),
+            MAX_TOKENS=int(os.getenv('MAX_TOKENS')),
+            TEMPERATURE=float(os.getenv('TEMPERATURE')),
+            TOP_P=float(os.getenv('TOP_P')),
+            FREQUENCY_PENALTY=float(os.getenv('FREQUENCY_PENALTY')),
+            PRESENCE_PENALTY=float(os.getenv('PRESENCE_PENALTY'))
+        )
+
+        return openai_service_config
