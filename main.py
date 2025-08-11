@@ -1,6 +1,9 @@
+import sys
 import time
+
 from src.company_research_and_summarization_system import logger
 from src.company_research_and_summarization_system.pipelines.input_pipeline import InputPipeline
+from src.company_research_and_summarization_system.pipelines.output_pipeline import OutputPipeline
 from src.company_research_and_summarization_system.pipelines.generate_pipeline import GeneratePipeline
 
 
@@ -59,6 +62,42 @@ def main():
                 workflow_results['warnings'] += 1
             else:
                 workflow_results['failed_summaries'] += 1
+
+        output_pipeline = OutputPipeline(summaries)
+        output_pipeline = output_pipeline.run()
+
+        # Get the output URL from the output pipeline
+        workflow_results['output_url'] = output_pipeline
+
+        # Complete the workflow results
+        end_time = time.time()
+        workflow_results['status'] = 'completed'
+        workflow_results['end_time'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        workflow_results['duration'] = f'{(end_time - start_time):.2f} seconds'
+
+        logger.info('Workflow completed successfully.')
+
+        # Display the workflow results
+        print("\n📊 Workflow Results:")
+        print(f"Status: {workflow_results['status']}")
+        print(f"Companies Processed: {workflow_results['companies_processed']}")
+        print(f"Successful Summaries: {workflow_results['successful_summaries']}")
+        print(f"Failed Summaries: {workflow_results['failed_summaries']}")
+        print(f"Warnings: {workflow_results['warnings']}")
+        print(f"Duration: {workflow_results['duration']}")
+
+        if workflow_results['output_url']:
+            print(f"\n🎯 Results available at: {workflow_results['output_url']}")
+
+        if workflow_results['status'] == 'completed':
+            print("\n✅ Workflow completed successfully!")
+            return 0
+        else:
+            print(f"\n❌ Workflow failed: {', '.join(workflow_results['errors'])}")
+            return 1
+    except KeyboardInterrupt:
+        print("\n⚠️  Operation cancelled by user")
+        return 1
     except Exception as e:
         logger.error(f"An error occurred during the workflow execution: {str(e)}")
         workflow_results['status'] = 'failed'
@@ -66,6 +105,10 @@ def main():
         workflow_results['end_time'] = time.strftime('%Y-%m-%d %H:%M:%S')
         workflow_results['duration'] = f'{(time.time() - start_time):.2f} seconds'
 
+        print(f"\n❌ Critical error: {str(e)}")
+        logger.error(f"Critical error in main: {str(e)}")
+        return 1
 
 if __name__ == "__main__":
-    main()
+    exit_code = main()
+    sys.exit(exit_code)
