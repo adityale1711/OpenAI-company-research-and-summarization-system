@@ -5,7 +5,6 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-green.svg)](https://openai.com/)
 [![Google Sheets](https://img.shields.io/badge/Google%20Sheets-API-red.svg)](https://developers.google.com/sheets)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 *An intelligent, AI-powered system for automated company research and business analysis*
 
