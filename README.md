@@ -48,7 +48,7 @@ The **OpenAI Company Research and Summarization System** is a sophisticated, pro
 
 The system implements a **modular three-stage pipeline architecture** designed for reliability, scalability, and maintainability:
 
-![OpenAI Company Research and Summarization System Architecture](docs/OpenAI Company Research and Summarization System Architecture.png)
+![OpenAI Company Research and Summarization System Architecture](docs/OpenAI_Company_Research_and_Summarization_System_Architecture.png)
 
 ### 🔧 Core Components
 
